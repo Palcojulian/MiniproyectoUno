@@ -5,15 +5,24 @@ package clases;
  */
 public class Bolsa extends HeapSort {
     
-    
+    public int bolsa[];
     public HeapSort[] keysNivelUno;
     
     
     public Bolsa() {
+        this.bolsa = new int[5];
         this.keysNivelUno = new HeapSort[6];
         
     }
+    
+    public void setKeysBolsa(int num, int indice){
+        this.bolsa[indice] = num;
+    }
 
+    public int getBolsa(int indice) {
+        return this.bolsa[indice];
+    }
+    
     public void setKeysNivelUno(int arreglo[]) {
         for (int i = 1; i < arreglo.length; i++) {
             if (i == 1) {
@@ -40,6 +49,8 @@ public class Bolsa extends HeapSort {
     public HeapSort[] getKeysNivelUno() {
         return keysNivelUno;
     }
+    
+   
     
     public void mostrarBolsaNivelUno(){
         for (int i = 1; i < this.keysNivelUno.length; i++) {

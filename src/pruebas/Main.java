@@ -11,15 +11,22 @@ public class Main {
     
     public static void main(String[] args) {
         
-        int nums[] = {0, 20, 12, 31, 45, 10};
-        Jugador persona = new Jugador();
         
+        boolean turnoPersona=true;
         
-        persona.bolsa.setKeysNivelUno(nums);
-        persona.bolsa.mostrarBolsaNivelUno();
-        System.out.println("----------------------------");
-        persona.bolsa.ordenarNivelUno(persona.bolsa.getKeysNivelUno());
-        persona.bolsa.mostrarBolsaNivelUno();
+        int i = 4;
+        
+        while(i<4){
+            i++;
+            if(turnoPersona){
+                System.out.println("Holaa");
+                turnoPersona = !turnoPersona;
+            }else{
+                System.out.println("Maquina");
+            }
+            
+            
+        }
         
         
         

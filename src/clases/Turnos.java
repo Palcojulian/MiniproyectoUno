@@ -15,21 +15,13 @@ public class Turnos {
     public static boolean verificarTurnos(int intentos, int bolsa[]) {
         boolean condicionUno = (intentos > 0) ? true : false;                //Operador ternario 
         boolean condicionDos = true;
+        
+        
         for (int i = 0; i < bolsa.length; i++) {
             condicionDos = (bolsa[i] == 0) ? true : false;                   //Operador ternario
         }
+        
         return condicionUno && condicionDos;
-    }
-
-    public static boolean verificarNums(int bolsa[], int num) { //[1,3,4,0,0] num=4
-        boolean condicion = true;
-        for (int i = 0; i < bolsa.length; i++) {
-            if (bolsa[i] == num) { 
-                condicion = false;
-                i = bolsa.length;
-            }
-        }
-        return condicion;
     }
 
     public static int rango(int nivel) {
@@ -53,36 +45,36 @@ public class Turnos {
         return num;
     }
     
+    public static boolean verificarNums(int bolsa[], int num) { 
+        boolean condicion = true;
+        for (int i = 0; i < bolsa.length; i++) {
+            if (bolsa[i] == num) { 
+                condicion = false;
+                i = bolsa.length;
+            }
+        }
+        return condicion;
+    }
+    
     public static void main(String[] args) {
         int nums[] = new int[5];
         int numsDos[] = new int[5];
-        int numsRechazados[] = new int[40];
-
-        int i = 0;
-        while (i<5) {
-            int num = generarNums(rango(3));
-            nums[i]=num;
-            if(verificarNums(nums, num)){
-                nums[i] = num;
-                i++;
+        
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] = generarNums(rango(1));
+            System.out.println(nums[i]);
+        }
+        System.out.println("---------------------");
+        
+        int condicion = 0;
+        while(condicion<5){
+            int num = generarNums(rango(1));
+            if(verificarNums(numsDos, num)){
+                numsDos[condicion] = num;
+                System.out.println(numsDos[condicion]);
+                condicion++;
             }
         }
-        
-        while(i<5){
-            int num = generarNums(rango(3));
-            numsDos[i] = num;
-            i++;
-        }
-        
-        for (int j = 0; j < nums.length; j++) {
-            System.out.println(nums[j]);
-        }
-        
-        System.out.println("----------------");
-        for (int j = 0; j < numsDos.length; j++) {
-            System.out.println(numsDos[j]);
-        }
-        
     }
 }
 
