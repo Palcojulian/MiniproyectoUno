@@ -25,6 +25,7 @@ public class RadixSort {
     private static void countSort(int[] arr, int n, int exp) {
         int[] output = new int[n];
         int i;
+        
         int[] count = new int[10];
         Arrays.fill(count, 0);
 
@@ -59,9 +60,9 @@ public class RadixSort {
             System.out.print(arr[i] + " ");
         }
     }
-
+    
     public static void main(String[] args) {
-        int[] arr = {300, 200, 100, 50, 20};
+        int[] arr = { 170, 45, 75, 90, 802, 24, 2, 66 };
         int n = arr.length;
         radixsort(arr, n);
         print(arr, n);

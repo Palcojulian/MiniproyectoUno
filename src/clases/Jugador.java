@@ -1,34 +1,32 @@
-
 package clases;
 
-public class Jugador{
-    private int idjugador;
+public class Jugador {
+
     public double puntos;
-    public int intentos = 20;
-    
+    public int inten = 20;
     public Bolsa bolsa;
-    
-    
-    public Jugador(){
+    public int indice;
+
+    public Jugador() {
         this.bolsa = new Bolsa();
     }
+    
+    public int getIndice() {
+        return indice;
+    }
 
-    public int getIdjugador() {
-        return idjugador;
+    public void setIndice(int indice) {
+        this.indice = indice;
     }
     
-    public void setIdjugador(int idjugador) {
-        this.idjugador = idjugador;
+    public int getInten() {
+        return inten;
     }
 
-      public int getIntentos() {
-        return intentos;
+    public void setInten(int inten) {
+        this.inten = inten;
     }
 
-    public void setIntentos(int intentos) {
-        this.intentos = intentos;
-    }
-    
     public double getPuntos() {
         return puntos;
     }
@@ -36,9 +34,4 @@ public class Jugador{
     public void setPuntos(int puntos) {
         this.puntos = puntos;
     }
-    
-    public void bolsaJugador(){
-        
-    }
-    
 }

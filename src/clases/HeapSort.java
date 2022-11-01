@@ -3,21 +3,17 @@ package clases;
 /**
  * @author palco
  */
-public class HeapSort {
+public class HeapSort extends Bolsa{
 
     private int keyIzquierda;
     private int keyDerecha;
     private int keyRaiz;
-
-    public HeapSort nodo() {
-        HeapSort nodo = new HeapSort();
-        return nodo;
-    }
+    
 
     public void buildHeap(HeapSort keys[], int indice) { //5
         int auxiliar;
         for (int i = indice; i > 1; i--) {
-
+            
             if ((keys[i].getKeyRaiz() > keys[padre(i)].getKeyRaiz())) {
                 auxiliar = keys[i].getKeyRaiz();
                 keys[i].setKeyRaiz(keys[padre(i)].getKeyRaiz());
@@ -38,6 +34,8 @@ public class HeapSort {
                 buildHeap(keys,(i*2)+1);
             }            
         }
+        
+        
     }
     
     private void heapSort(HeapSort keys[], int indice) {
@@ -63,7 +61,17 @@ public class HeapSort {
         }
     }
     
-    public int padre(int padre){
+    public void mostrarBolsaNivelUno(){
+        for (int i = 1; i < this.keysNivelUno.length; i++) {
+            //System.out.println("Nodo " + i);
+            System.out.println("["+this.keysNivelUno[i].getKeyRaiz()+"]");
+            //System.out.println("Izquierdo=> "+this.keysNivelUno[i].getKeyIzquierda());
+            //System.out.println("Derecho=> "+this.keysNivelUno[i].getKeyDerecha());
+            
+        }
+    }
+    
+    public static int padre(int padre){
         return padre/2;
     }
 

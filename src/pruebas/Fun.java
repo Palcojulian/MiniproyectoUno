@@ -1,99 +1,21 @@
 package pruebas;
 
-/**
- * @author palco
- */
-import clases.Bolsa;
+import clases.HeapSort;
 import clases.Jugador;
-
 import java.util.Scanner;
 
-public class Main {
-
-    public static void main(String[] args) {
-
-        Jugador per = new Jugador();
-        Jugador maq = new Jugador();
-
-        int nivel = bienvenida();
-        while (nivel < 1 || nivel > 4) {
-            System.out.println("Incorrecto, ingrese un nivel valido ");
-            nivel = input().nextInt();
-        }
-
-        System.out.println("Nivel: " + nivel);
-        System.out.println("Numeros del 1 al " + rango(nivel));
-
-        System.out.println("-------------------------------");
-        System.out.println("Estado persona ");
-        estadoJugador(per);
-        System.out.println("Estado maquina ");
-        estadoJugador(maq);
-
-        int numsRe[] = new int[rango(nivel) - 10];
-        boolean humanTurn = true;
-        int numSaltado = 0;
-
-        while (turno(per.getInten(), per.bolsa.getBolsa()) || turno(maq.getInten(), maq.bolsa.getBolsa())) {
-
-            if (humanTurn) {
-                if (per.getIndice() <= 4) {
-                    int num = generarNumero(per.bolsa.getBolsa(), maq.bolsa.getBolsa(), numsRe, nivel);
-                    System.out.println("Numero -> " + num);
-                    int opcion = opciones(1);
-
-                    if (opcion == 1) {
-                        per.bolsa.setKeyBolsa(num, per.getIndice());
-                        per.setIndice(per.getIndice() + 1);
-                    }
-                    if (opcion == 2) {
-                        num = generarNumero(per.bolsa.getBolsa(), maq.bolsa.getBolsa(), numsRe, nivel);
-                        System.out.println("Nuevo numero -> " + num);
-
-                        opcion = opciones(2);
-                        if (opcion == 1) {
-                            per.bolsa.setKeyBolsa(num, per.getIndice());
-                            per.setIndice(per.getIndice() + 1);
-                        }
-
-                        if (opcion == 2) {
-                            System.out.println("Saltaste el turno");
-                            numSaltado = num;
-                        }
-                    }
-
-                    per.setInten(per.getInten() - 1);
-                    System.out.println("Estado persona ");
-                    estadoJugador(per);
-                }
-                
-            } else {
-                if (maq.getIndice() <= 4) {
-                    int num = generarNumero(per.bolsa.getBolsa(), maq.bolsa.getBolsa(), numsRe, nivel);
-                    System.out.println("Numero -> " + num);
-                    maq.bolsa.setKeyBolsa(num, maq.getIndice());
-                    maq.setIndice(maq.getIndice() + 1);
-                    maq.setInten(maq.getInten() - 1);
-                    System.out.println("Estado maquina ");
-                    estadoJugador(maq);
-                }
-            }
-            humanTurn = !humanTurn;
-        }
-
-        System.out.println("Bolsa final persona: ");
-        estadoJugador(per);
-        System.out.println("Bolsa final maquina: ");
-        estadoJugador(maq);
-
-    }
+/**
+ *
+ * @author palco
+ */
+public class Fun {
 
     public static Scanner input() {
         Scanner in = new Scanner(System.in);
         return in;
     }
 
-    public static int bienvenida() {
+    public static int mostrarNiveles() {
         System.out.println("Tower Blaster Modificado");
         int i = 1;
         while (i < 5) {
@@ -104,6 +26,16 @@ public class Main {
         int nivel = input().nextInt();
 
         return nivel;
+    }
+
+    public static void mostrarEstadoInicialJugardores(Jugador per, Jugador maq, int nivel) {
+        System.out.println("Nivel: " + nivel);
+        System.out.println("Numeros del 1 al " + Fun.rango(nivel));
+        System.out.println("-------------------------------");
+        System.out.println("Estado persona ");
+        Fun.estadoJugador(per);
+        System.out.println("Estado maquina ");
+        Fun.estadoJugador(maq);
     }
 
     public static void estadoJugador(Jugador ob) {
@@ -207,12 +139,109 @@ public class Main {
 
     public static int generarNumero(int bolsaUno[], int bolsaDos[], int bolsaTres[], int nivel) {
         int num = numsAleatorios(rango(nivel));
+        
         boolean condicion = verificarNumero(bolsaUno, bolsaDos, bolsaTres, num);
+        
         while (condicion) {
             num = numsAleatorios(rango(nivel));
             condicion = verificarNumero(bolsaUno, bolsaDos, bolsaTres, num);
         }
+        
         return num;
     }
 
+    public static boolean mejorNum(int numInicial, int rango, int numGenerado) {
+        int adelante = generarRango(numInicial, rango);
+        int atras = Math.abs(adelante - 10);
+
+        boolean condicionUno = false;
+        boolean condicionDos = false;
+
+        for (int i = 1; i <= adelante; i++) {
+            if (numGenerado == numInicial + i) {
+                condicionUno = true;
+                i = adelante + 1;
+            }
+        }
+
+        for (int i = 1; i <= atras; i++) {
+            if (numGenerado == numInicial - i) {
+                condicionUno = true;
+                i = atras + 1;
+            }
+        }
+
+        return condicionUno || condicionDos;
+    }
+
+    public static int generarRango(int num, int rango) {
+
+        int rangoAtras = num - 5;
+        int rangoAdelante = num + 5;
+
+        int adelante = 0;
+
+        if (rangoAtras == -4) {
+            adelante = 10;
+        }
+        if (rangoAtras == -3) {
+            adelante = 9;
+
+        }
+        if (rangoAtras == -2) {
+            adelante = 8;
+
+        }
+        if (rangoAtras == -1) {
+            adelante = 7;
+
+        }
+        if (rangoAtras == 0) {
+            adelante = 6;
+
+        }
+
+        if (rangoAdelante > rango + 5) {
+            adelante = 0;
+        }
+
+        if (rangoAdelante == rango + 4) {
+            adelante = 1;
+        }
+
+        if (rangoAdelante == rango + 3) {
+            adelante = 2;
+        }
+
+        if (rangoAdelante == rango + 2) {
+            adelante = 3;
+        }
+
+        if (rangoAdelante == rango + 1) {
+            adelante = 4;
+        }
+
+        if (rangoAdelante == rango) {
+            adelante = 5;
+        }
+
+        if ((rangoAtras > 0) && (rangoAdelante <= rango)) {
+            adelante = 5;
+        }
+
+        return adelante;
+    }
+
+    public static void ordenamientoHeapSort(Jugador per, Jugador maq) {
+        HeapSort ordenar = new HeapSort();
+        System.out.println("Ordenamiento Nivel 1: HeapSort");
+        System.out.println("Numeros ordenados persona :3");
+        ordenar.setKeysNivelUno(per.bolsa.getBolsa());
+        ordenar.ordenarNivelUno(ordenar.getKeysNivelUno());
+        ordenar.mostrarBolsaNivelUno();
+        System.out.println("Numeros ordenados maquina :3");
+        ordenar.setKeysNivelUno(maq.bolsa.getBolsa());
+        ordenar.ordenarNivelUno(ordenar.getKeysNivelUno());
+        ordenar.mostrarBolsaNivelUno();
+    }
 }
