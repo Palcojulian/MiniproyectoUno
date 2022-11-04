@@ -13,34 +13,17 @@ import clases.Jugador;
 public class Prueba {
 
     public static void main(String[] args) {
-
-        int nums[] = {300,12,2,54,1};
-        int indices[] = new int[5];
-        int numOrdenados[] = new int[5];
         
-        for (int i = 0; i < nums.length; i++) {
-            int indice = 0;
-            for (int j = 0; j < nums.length; j++) {
-                if(nums[i]>nums[j]){
-                    indice++;
-                }  
-            }
-            indices[i] = indice;
-        }
+        Jugador per = new Jugador();
+        Jugador maq = new Jugador();
         
-        for (int i = 0; i < indices.length; i++) {
-            System.out.println(indices[i]);
-        }
         
-        for (int i = 0; i < numOrdenados.length; i++) {
-            numOrdenados[indices[i]] = nums[i]; 
+        while(Fun.turno(per.getInten(), per.bolsa.getBolsa()) || Fun.turno(maq.getInten(), maq.bolsa.getBolsa()) ){
+            //
         }
         
         
-        System.out.println("-------------------------");
-        for (int i = 0; i < indices.length; i++) {
-            System.out.println(numOrdenados[i]);
-        }
+        
     }
 
     public static boolean mejorNum(int numInicial, int rango, int numGenerado) {

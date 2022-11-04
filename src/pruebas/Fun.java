@@ -1,5 +1,6 @@
 package pruebas;
 
+import clases.Dinamica;
 import clases.HeapSort;
 import clases.Jugador;
 import java.util.Scanner;
@@ -15,6 +16,25 @@ public class Fun {
         return in;
     }
 
+    public static int bienvenida() {
+        System.out.println("Tower Blaster Modificado");
+        System.out.println("1. Ver instrucciones.");
+        System.out.println("2. Jugar.");
+        System.out.println("3. Creadores.");
+        int opcion = input().nextInt();
+
+        while (opcion < 1 || opcion > 3) {
+            System.out.println("Incorrecto, ingrese una opción valida");
+            opcion = input().nextInt();
+        }
+
+        return opcion;
+    }
+
+    public static void mostrarInstruccionesDelJuego() {
+        System.out.println("Instrucciones del juego... ");
+    }
+
     public static int mostrarNiveles() {
         System.out.println("Tower Blaster Modificado");
         int i = 1;
@@ -25,17 +45,49 @@ public class Fun {
         System.out.println("Ingrese el nivel: ");
         int nivel = input().nextInt();
 
+        while (nivel < 1 || nivel > 4) {
+            System.out.println("Incorrecto, ingrese un nivel valido ");
+            nivel = input().nextInt();
+        }
         return nivel;
     }
 
-    public static void mostrarEstadoInicialJugardores(Jugador per, Jugador maq, int nivel) {
-        System.out.println("Nivel: " + nivel);
-        System.out.println("Numeros del 1 al " + Fun.rango(nivel));
-        System.out.println("-------------------------------");
-        System.out.println("Estado persona ");
-        Fun.estadoJugador(per);
-        System.out.println("Estado maquina ");
-        Fun.estadoJugador(maq);
+    public static void mostrarIntegrantesDelGrupo() {
+        System.out.println("Karen Daniela");
+        System.out.println("Emily Villa");
+        System.out.println("Erika");
+        System.out.println("Juan Pablo Perdomo Paya");
+        System.out.println("Julian Libardo Palco Guegue");
+    }
+
+    public static void agregarNumerosBolsaJugador(Jugador ob, int num) {
+        System.out.println("Elegiste el numero -> " + num);
+        ob.bolsa.setKeyBolsa(num, ob.getIndice());
+        ob.setIndice(ob.getIndice() + 1);
+    }
+
+    public static void mostrarEstadoInicialFinalJugardores(Jugador per, Jugador maq, int nivel, int opcion) {
+
+        if (opcion == 1) {
+
+            System.out.println("-------------------------------");
+            System.out.println("Nivel: " + nivel);
+            System.out.println("Numeros del 1 al " + Fun.rango(nivel));
+            System.out.println("-------------------------------");
+            System.out.println("Estado inicial de jugadores ");
+            System.out.println("Persona");
+            Fun.estadoJugador(per);
+            System.out.println("Maquina ");
+            Fun.estadoJugador(maq);
+        }
+        if (opcion == 2) {
+            System.out.println("Estado final de jugadores");
+            System.out.println("Persona ");
+            Fun.estadoJugador(per);
+            System.out.println("Maquina ");
+            Fun.estadoJugador(maq);
+        }
+
     }
 
     public static void estadoJugador(Jugador ob) {
@@ -46,7 +98,8 @@ public class Fun {
         System.out.println("-------------------------------");
     }
 
-    public static int opciones(int i) {
+    public static int opciones(int i, int num) {
+        System.out.println("Numero -> " + num);
         if (i == 1) {
             System.out.println("¡¡ Que desea Hacer !!");
             System.out.println("1. Elegir numero.");
@@ -59,9 +112,9 @@ public class Fun {
             System.out.println("2. Saltar Turno.");
         }
 
-        int num = input().nextInt();
+        int opcion = input().nextInt();
 
-        return num;
+        return opcion;
     }
 
     public static int rango(int i) {
@@ -139,14 +192,14 @@ public class Fun {
 
     public static int generarNumero(int bolsaUno[], int bolsaDos[], int bolsaTres[], int nivel) {
         int num = numsAleatorios(rango(nivel));
-        
+
         boolean condicion = verificarNumero(bolsaUno, bolsaDos, bolsaTres, num);
-        
+
         while (condicion) {
             num = numsAleatorios(rango(nivel));
             condicion = verificarNumero(bolsaUno, bolsaDos, bolsaTres, num);
         }
-        
+
         return num;
     }
 
@@ -233,15 +286,46 @@ public class Fun {
     }
 
     public static void ordenamientoHeapSort(Jugador per, Jugador maq) {
-        HeapSort ordenar = new HeapSort();
+        HeapSort nivelUno = new HeapSort();
         System.out.println("Ordenamiento Nivel 1: HeapSort");
-        System.out.println("Numeros ordenados persona :3");
-        ordenar.setKeysNivelUno(per.bolsa.getBolsa());
-        ordenar.ordenarNivelUno(ordenar.getKeysNivelUno());
-        ordenar.mostrarBolsaNivelUno();
-        System.out.println("Numeros ordenados maquina :3");
-        ordenar.setKeysNivelUno(maq.bolsa.getBolsa());
-        ordenar.ordenarNivelUno(ordenar.getKeysNivelUno());
-        ordenar.mostrarBolsaNivelUno();
+        System.out.println("Persona :3");
+        nivelUno.setKeysNivelUno(per.bolsa.getBolsa());
+        nivelUno.ordenarNivelUno(nivelUno.getKeysNivelUno());
+        System.out.println("Maquina :3");
+        nivelUno.setKeysNivelUno(maq.bolsa.getBolsa());
+        nivelUno.ordenarNivelUno(nivelUno.getKeysNivelUno());
+   
+    }
+
+    public static void ordenamientoRadixSort(Jugador per, Jugador maq) {
+        System.out.println("En construcción");
+    }
+
+    public static void ordenamientoDinamica(Jugador per, Jugador maq) {
+        Dinamica nivelTres = new Dinamica();
+        System.out.println("Ordenamiento Nivel 3: Programación dinamica");
+        System.out.println("Persona");
+        nivelTres.ordenarNumeros(per.bolsa.getBolsa());
+        System.out.println("Maquina");
+        nivelTres.ordenarNumeros(maq.bolsa.getBolsa());
+    }
+
+    public static void ordenamientoVoraz(Jugador per, Jugador maq) {
+        System.out.println("En construcción");
+    }
+
+    public static void ordenarBolsaDeJugadores(Jugador per, Jugador maq, int nivel) {
+        if (nivel == 1) {
+            Fun.ordenamientoHeapSort(per, maq);
+        }
+        if (nivel == 2) {
+            Fun.ordenamientoRadixSort(per, maq);
+        }
+        if (nivel == 3) {
+            Fun.ordenamientoDinamica(per, maq);
+        }
+        if (nivel == 4) {
+            Fun.ordenamientoVoraz(per, maq);
+        }
     }
 }

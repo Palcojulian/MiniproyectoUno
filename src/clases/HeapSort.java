@@ -9,7 +9,40 @@ public class HeapSort extends Bolsa{
     private int keyDerecha;
     private int keyRaiz;
     
-
+    public HeapSort nodo() {
+        HeapSort nodo = new HeapSort();
+        return nodo;
+    }
+    
+    public void setKeysNivelUno(int arreglo[]) {
+        
+        for (int i = 0; i < arreglo.length; i++) {
+            int j = i+1;
+            if (j == 1) {
+                this.keysNivelUno[j] = nodo();
+                this.keysNivelUno[j].setKeyRaiz(arreglo[i]); //{0,20,12,31,45,10}
+                continue;
+            }
+            
+            if (j % 2 == 0) {
+                this.keysNivelUno[j] = nodo();
+                this.keysNivelUno[j].setKeyRaiz(arreglo[i]);
+                this.keysNivelUno[j/2].setKeyIzquierda(arreglo[i]);//{0,20,12,31,45,10}
+                continue;
+            }
+            
+            if (j % 2 == 1) {
+                this.keysNivelUno[j] = nodo();
+                this.keysNivelUno[j].setKeyRaiz(arreglo[i]);
+                this.keysNivelUno[j/2].setKeyDerecha(arreglo[i]);
+            }
+        }
+    }
+    
+    public HeapSort[] getKeysNivelUno() {
+        return keysNivelUno;
+    }
+    
     public void buildHeap(HeapSort keys[], int indice) { //5
         int auxiliar;
         for (int i = indice; i > 1; i--) {
@@ -34,8 +67,6 @@ public class HeapSort extends Bolsa{
                 buildHeap(keys,(i*2)+1);
             }            
         }
-        
-        
     }
     
     private void heapSort(HeapSort keys[], int indice) {
@@ -53,12 +84,15 @@ public class HeapSort extends Bolsa{
     }
     
     public void ordenarNivelUno(HeapSort keys[]){
+        
         int i = 5;
         while(i>1){
             buildHeap(keys, i);
             heapSort(keys, i);
             i--;
         }
+        
+        mostrarBolsaNivelUno();
     }
     
     public void mostrarBolsaNivelUno(){
@@ -67,7 +101,6 @@ public class HeapSort extends Bolsa{
             System.out.println("["+this.keysNivelUno[i].getKeyRaiz()+"]");
             //System.out.println("Izquierdo=> "+this.keysNivelUno[i].getKeyIzquierda());
             //System.out.println("Derecho=> "+this.keysNivelUno[i].getKeyDerecha());
-            
         }
     }
     

@@ -1,6 +1,5 @@
 package pruebas;
 import clases.Jugador;
-
 /**
  *
  * @author palco
@@ -8,115 +7,72 @@ import clases.Jugador;
 public class Run {
 
     public static void main(String[] args) {
-        Jugador per = new Jugador();
-        Jugador maq = new Jugador();
 
-        int nivel = Fun.mostrarNiveles();
+        int opcionJugador = Fun.bienvenida();
 
-        while (nivel < 1 || nivel > 4) {
-            System.out.println("Incorrecto, ingrese un nivel valido ");
-            nivel = Fun.input().nextInt();
+        if (opcionJugador == 1) {
+            Fun.mostrarInstruccionesDelJuego();
         }
+        if (opcionJugador == 2) {
+            Jugador per = new Jugador();
+            Jugador maq = new Jugador();
+            int nivel = Fun.mostrarNiveles();
+            Fun.mostrarEstadoInicialFinalJugardores(per, maq, nivel, 1);
+            int indice = 0;
+            int numsRe[] = new int[Fun.rango(nivel) - 10];
+            boolean humanTurn = true;
 
-        Fun.mostrarEstadoInicialJugardores(per, maq, nivel);
-
-        int indice = 0;
-        int numsRe[] = new int[Fun.rango(nivel) - 10];
-        boolean humanTurn = true;
-
-        while (Fun.turno(per.getInten(), per.bolsa.getBolsa()) || Fun.turno(maq.getInten(), maq.bolsa.getBolsa())) {
-            if (humanTurn) {
-                if (per.getIndice() <= 4) {
-                    int num = Fun.generarNumero(per.bolsa.getBolsa(), maq.bolsa.getBolsa(), numsRe, nivel);
-                    System.out.println("Numero -> " + num);
-                    int opcion = Fun.opciones(1);
-
-                    if (opcion == 1) {
-                        per.bolsa.setKeyBolsa(num, per.getIndice());
-                        per.setIndice(per.getIndice() + 1);
-                    }
-                    if (opcion == 2) {
-                        num = Fun.generarNumero(per.bolsa.getBolsa(), maq.bolsa.getBolsa(), numsRe, nivel);
-                        System.out.println("Nuevo numero -> " + num);
-                        opcion = Fun.opciones(2);
-
+            while (per.verTurno() || maq.verTurno()) {
+                if (humanTurn) {
+                    if (per.getIndice() <= 4) {
+                        int num = Fun.generarNumero(per.bolsa.getBolsa(), maq.bolsa.getBolsa(), numsRe, nivel);
+                        int opcion = Fun.opciones(1, num);
                         if (opcion == 1) {
-                            per.bolsa.setKeyBolsa(num, per.getIndice());
-                            per.setIndice(per.getIndice() + 1);
+                            Fun.agregarNumerosBolsaJugador(per, num);
                         }
-
                         if (opcion == 2) {
-                            System.out.println("Saltaste el turno");
-                            numsRe[indice] = num;
-                            indice++;
+                            num = Fun.generarNumero(per.bolsa.getBolsa(), maq.bolsa.getBolsa(), numsRe, nivel);
+                            opcion = Fun.opciones(2, num);
+                            if (opcion == 1) {
+                                Fun.agregarNumerosBolsaJugador(per, num);
+                            }
+                            if (opcion == 2) {
+                                numsRe[indice] = num;
+                                indice++;
+                            }
                         }
+                        per.setInten(per.getInten() - 1);
+                        System.out.println("Estado persona ");
+                        Fun.estadoJugador(per);
                     }
-                    per.setInten(per.getInten() - 1);
-                    System.out.println("Estado persona ");
-                    Fun.estadoJugador(per);
-                }
-
-            } else {
-
-                if (maq.getIndice() <= 4) {
-                    int num = Fun.generarNumero(per.bolsa.getBolsa(), maq.bolsa.getBolsa(), numsRe, nivel);
-
-                    if (maq.getIndice() == 0) {
-                        System.out.println("Primer numero de la bolsa-> " + num);
-                        maq.bolsa.setKeyBolsa(num, maq.getIndice());
-                        maq.setIndice(maq.getIndice() + 1);
-                    }
-
-                    if (Fun.mejorNum(maq.bolsa.getBolsa(0), Fun.rango(nivel), num)) {
-                        maq.bolsa.setKeyBolsa(num, maq.getIndice());
-                        maq.setIndice(maq.getIndice() + 1);
-                    } else {
-                        num = Fun.generarNumero(per.bolsa.getBolsa(), maq.bolsa.getBolsa(), numsRe, nivel);
-                        if (Fun.mejorNum(maq.bolsa.getBolsa(0), Fun.rango(nivel), num)) {
-                            maq.bolsa.setKeyBolsa(num, maq.getIndice());
-                            maq.setIndice(maq.getIndice() + 1);
+                } else {
+                    if (maq.getIndice() <= 4) {
+                        int num = Fun.generarNumero(per.bolsa.getBolsa(), maq.bolsa.getBolsa(), numsRe, nivel);
+                        if (maq.getIndice() == 0) {
+                            Fun.agregarNumerosBolsaJugador(maq, num);
+                        } else if (Fun.mejorNum(maq.bolsa.getBolsa(0), Fun.rango(nivel), num)) {
+                            Fun.agregarNumerosBolsaJugador(maq, num);
                         } else {
-                            numsRe[indice] = num;
-                            indice++;
+                            num = Fun.generarNumero(per.bolsa.getBolsa(), maq.bolsa.getBolsa(), numsRe, nivel);
+                            if (Fun.mejorNum(maq.bolsa.getBolsa(0), Fun.rango(nivel), num)) {
+                                Fun.agregarNumerosBolsaJugador(maq, num);
+                            } else {
+                                numsRe[indice] = num;
+                                indice++;
+                            }
                         }
+                        maq.setInten(maq.getInten() - 1);
+                        System.out.println("Estado maquina ");
+                        Fun.estadoJugador(maq);
                     }
-
-                    maq.setInten(maq.getInten() - 1);
-
-                    System.out.println("Estado maquina ");
-                    Fun.estadoJugador(maq);
                 }
+                humanTurn = !humanTurn;
             }
-            humanTurn = !humanTurn;
+            Fun.mostrarEstadoInicialFinalJugardores(per, maq, nivel, 2);
+            Fun.ordenarBolsaDeJugadores(per, maq, nivel);
         }
-
-        System.out.println("Bolsa final persona: ");
-        Fun.estadoJugador(per);
-        System.out.println("Bolsa final maquina: ");
-        Fun.estadoJugador(maq);
-
-        if (nivel == 1) {
-            Fun.ordenamientoHeapSort(per, maq);
+        if (opcionJugador == 3) {
+            Fun.mostrarIntegrantesDelGrupo();
         }
-        if (nivel == 2) {
-            System.out.println("Ordenamiento Nivel 2: RadixSort");
-            System.out.println("En construcción...");
-        }
-        if (nivel == 3) {
-            System.out.println("Ordenamiento Nivel 3: Programación Dinamica");
-            System.out.println("En construcción...");
-        }
-        if (nivel == 4) {
-            System.out.println("Ordenamiento Nivel 4: Programación Voraz");
-            System.out.println("En construcción...");
-        }
-        
-        System.out.println("------------------------------");
-
-        for (int i = 0; i < numsRe.length; i++) {
-            System.out.println("[" + numsRe[i] + "]");
-        }
-
     }
-    
 }

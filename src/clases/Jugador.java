@@ -11,6 +11,18 @@ public class Jugador {
         this.bolsa = new Bolsa();
     }
     
+    public boolean verTurno(){
+        boolean condicionUno = (this.inten>0) ? true:false;
+        boolean condicionDos = true;
+        
+        for (int i = 0; i < bolsa.bolsa.length; i++) {
+            condicionDos = (bolsa.bolsa[i] == 0)? true:false;
+        }
+        
+        return condicionUno && condicionDos;
+    }
+    
+    
     public int getIndice() {
         return indice;
     }
