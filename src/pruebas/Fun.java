@@ -3,6 +3,7 @@ package pruebas;
 import clases.Dinamica;
 import clases.HeapSort;
 import clases.Jugador;
+import clases.Voraz;
 import java.util.Scanner;
 
 /**
@@ -60,13 +61,7 @@ public class Fun {
         System.out.println("Julian Libardo Palco Guegue");
     }
 
-    public static void agregarNumerosBolsaJugador(Jugador ob, int num) {
-        System.out.println("Elegiste el numero -> " + num);
-        ob.bolsa.setKeyBolsa(num, ob.getIndice());
-        ob.setIndice(ob.getIndice() + 1);
-    }
-
-    public static void mostrarEstadoInicialFinalJugardores(Jugador per, Jugador maq, int nivel, int opcion) {
+    public static void mostrarEstadoInicialFinalJugadores(Jugador per, Jugador maq, int nivel, int opcion) {
 
         if (opcion == 1) {
 
@@ -92,22 +87,21 @@ public class Fun {
 
     public static void estadoJugador(Jugador ob) {
         System.out.println("Puntos " + ob.getPuntos());
-        System.out.println("Intentos " + ob.getInten());
+        System.out.println("Intentos " + ob.getIntentos());
         System.out.println("Bolsa");
-        ob.bolsa.mostrarBolsa();
+        ob.mostrarBolsa();
         System.out.println("-------------------------------");
     }
 
     public static int opciones(int i, int num) {
         System.out.println("Numero -> " + num);
+        System.out.println("¡¡ Que desea Hacer !!");
         if (i == 1) {
-            System.out.println("¡¡ Que desea Hacer !!");
             System.out.println("1. Elegir numero.");
             System.out.println("2. Generar otro numero.");
         }
 
         if (i == 2) {
-            System.out.println("¡¡ Que desea Hacer !!");
             System.out.println("1. Elegir numero.");
             System.out.println("2. Saltar Turno.");
         }
@@ -144,24 +138,21 @@ public class Fun {
         return condicion;
     }
 
-    public static boolean turno(int intentos, int bolsa[]) {
-        boolean condicionUno = (intentos > 0) ? true : false;                //Operador ternario 
-        boolean condicionDos = true;
-
-        for (int i = 0; i < bolsa.length; i++) {
-            condicionDos = (bolsa[i] == 0) ? true : false;                   //Operador ternario
-        }
-
-        return condicionUno && condicionDos;
-    }
-
+    /*
+      Esta funcion genera un numero de manera aleatoria, el numero esta dentro-
+      del rango que tome, num>0<=rango.
+     */
     public static int numsAleatorios(int rango) {
         int num = (int) (Math.random() * rango + 1);
         return num;
     }
 
-    public static boolean verificarNumero(int bolsaUno[], int bolsaDos[], int bolsaTres[], int num) {
-
+    /*
+        Nos permite verficar si el numero que genera de manera aleatoria no-
+        esta repetida dentro de los numeros que hay en la bolsa de los-
+        jugadores y la bolsa donde van los numeros rechazados.
+     */
+    public static boolean numeroRepetido(int bolsaUno[], int bolsaDos[], int bolsaTres[], int num) {
         boolean condicionUno = false;
         boolean condicionDos = false;
         boolean condicionTres = false;
@@ -193,108 +184,82 @@ public class Fun {
     public static int generarNumero(int bolsaUno[], int bolsaDos[], int bolsaTres[], int nivel) {
         int num = numsAleatorios(rango(nivel));
 
-        boolean condicion = verificarNumero(bolsaUno, bolsaDos, bolsaTres, num);
+        boolean condicion = numeroRepetido(bolsaUno, bolsaDos, bolsaTres, num);
 
         while (condicion) {
             num = numsAleatorios(rango(nivel));
-            condicion = verificarNumero(bolsaUno, bolsaDos, bolsaTres, num);
+            condicion = numeroRepetido(bolsaUno, bolsaDos, bolsaTres, num);
         }
 
         return num;
     }
 
-    public static boolean mejorNum(int numInicial, int rango, int numGenerado) {
-        int adelante = generarRango(numInicial, rango);
-        int atras = Math.abs(adelante - 10);
-
+    public static boolean mejorNumMaquina(int numInicial, int rango, int numGenerado) {
+        int sucesores = generarRango(numInicial, rango);
+        int antecesores = Math.abs(sucesores - 10);
         boolean condicionUno = false;
         boolean condicionDos = false;
-
-        for (int i = 1; i <= adelante; i++) {
+        for (int i = 1; i <= sucesores; i++) {
             if (numGenerado == numInicial + i) {
                 condicionUno = true;
-                i = adelante + 1;
+                i = sucesores + 1;
             }
         }
-
-        for (int i = 1; i <= atras; i++) {
+        for (int i = 1; i <= antecesores; i++) {
             if (numGenerado == numInicial - i) {
                 condicionUno = true;
-                i = atras + 1;
+                i = antecesores + 1;
             }
         }
-
         return condicionUno || condicionDos;
     }
 
     public static int generarRango(int num, int rango) {
+        int antecesor = num - 5;
+        int sucesor = num + 5;
+        int sucesores = 0;
 
-        int rangoAtras = num - 5;
-        int rangoAdelante = num + 5;
+        sucesores = (antecesor == -4) ? 10 : 0;
 
-        int adelante = 0;
+        sucesores = (antecesor == -3) ? 9 : 0;
 
-        if (rangoAtras == -4) {
-            adelante = 10;
+        sucesores = (antecesor == -2) ? 8 : 0;
+
+        sucesores = (antecesor == -1) ? 7 : 0;
+
+        sucesores = (antecesor == 0) ? 6 : 0;
+
+        sucesores = (sucesor == rango + 5) ? 0 : 0;
+
+        sucesores = (sucesor == rango + 4) ? 1 : 0;
+
+        sucesores = (sucesor == rango + 3) ? 2 : 0;
+
+        sucesores = (sucesor == rango + 2) ? 3 : 0;
+
+        sucesores = (sucesor == rango + 1) ? 4 : 0;
+
+        if ((antecesor > 0) && (sucesor <= rango)) {
+            sucesores = 5;
         }
-        if (rangoAtras == -3) {
-            adelante = 9;
+        return sucesores;
+    }
 
-        }
-        if (rangoAtras == -2) {
-            adelante = 8;
-
-        }
-        if (rangoAtras == -1) {
-            adelante = 7;
-
-        }
-        if (rangoAtras == 0) {
-            adelante = 6;
-
-        }
-
-        if (rangoAdelante > rango + 5) {
-            adelante = 0;
-        }
-
-        if (rangoAdelante == rango + 4) {
-            adelante = 1;
-        }
-
-        if (rangoAdelante == rango + 3) {
-            adelante = 2;
-        }
-
-        if (rangoAdelante == rango + 2) {
-            adelante = 3;
-        }
-
-        if (rangoAdelante == rango + 1) {
-            adelante = 4;
-        }
-
-        if (rangoAdelante == rango) {
-            adelante = 5;
-        }
-
-        if ((rangoAtras > 0) && (rangoAdelante <= rango)) {
-            adelante = 5;
-        }
-
-        return adelante;
+    public static void agregarNumerosBolsaJugador(Jugador ob, int num) {
+        System.out.println("Elegiste el numero -> " + num);
+        ob.setKeyBolsa(num);
+        ob.setIndice(ob.getIndice() + 1);
     }
 
     public static void ordenamientoHeapSort(Jugador per, Jugador maq) {
         HeapSort nivelUno = new HeapSort();
         System.out.println("Ordenamiento Nivel 1: HeapSort");
         System.out.println("Persona :3");
-        nivelUno.setKeysNivelUno(per.bolsa.getBolsa());
+        nivelUno.setKeysNivelUno(per.getBolsa());
         nivelUno.ordenarNivelUno(nivelUno.getKeysNivelUno());
         System.out.println("Maquina :3");
-        nivelUno.setKeysNivelUno(maq.bolsa.getBolsa());
+        nivelUno.setKeysNivelUno(maq.getBolsa());
         nivelUno.ordenarNivelUno(nivelUno.getKeysNivelUno());
-   
     }
 
     public static void ordenamientoRadixSort(Jugador per, Jugador maq) {
@@ -305,13 +270,21 @@ public class Fun {
         Dinamica nivelTres = new Dinamica();
         System.out.println("Ordenamiento Nivel 3: Programación dinamica");
         System.out.println("Persona");
-        nivelTres.ordenarNumeros(per.bolsa.getBolsa());
+        nivelTres.ordenarNumeros(per.getBolsa());
         System.out.println("Maquina");
-        nivelTres.ordenarNumeros(maq.bolsa.getBolsa());
+        nivelTres.ordenarNumeros(maq.getBolsa());
     }
 
     public static void ordenamientoVoraz(Jugador per, Jugador maq) {
-        System.out.println("En construcción");
+        Voraz orPer = new Voraz();
+        System.out.println("Ordenamiento nivel 4: programación Voraz");
+        System.out.println("Persona");
+        orPer.buscarDistaciaEntreNodos(per.getBolsa());
+      
+        Voraz orMaq = new Voraz();
+        System.out.println("Maquina");
+        orMaq.buscarDistaciaEntreNodos(maq.getBolsa());
+        
     }
 
     public static void ordenarBolsaDeJugadores(Jugador per, Jugador maq, int nivel) {

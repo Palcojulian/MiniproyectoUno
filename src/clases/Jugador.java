@@ -2,41 +2,57 @@ package clases;
 
 public class Jugador {
 
-    public double puntos;
-    public int inten = 20;
-    public Bolsa bolsa;
-    public int indice;
+    private double puntos;
+    private int intentos = 20;
+    private int indice;
+    private int bolsa[];
+    
 
     public Jugador() {
-        this.bolsa = new Bolsa();
+        this.bolsa = new int[5];
     }
     
     public boolean verTurno(){
-        boolean condicionUno = (this.inten>0) ? true:false;
+        boolean condicionUno = (this.intentos>0) ? true:false;
         boolean condicionDos = true;
-        
-        for (int i = 0; i < bolsa.bolsa.length; i++) {
-            condicionDos = (bolsa.bolsa[i] == 0)? true:false;
+        for (int i = 0; i < this.bolsa.length; i++) {
+            condicionDos = (this.bolsa[i] == 0)? true:false;
         }
-        
         return condicionUno && condicionDos;
     }
     
+    public int getKeyBolsa(int num) {
+        return this.bolsa[num];
+    }
+    
+    public int[] getBolsa() {
+        return bolsa;
+    }
+
+    public void setKeyBolsa(int num) {
+        this.bolsa[this.indice] = num;
+    }
+    
+    public void  mostrarBolsa(){
+        for (int i = 0; i < this.bolsa.length; i++) {
+            System.out.println("["+this.bolsa[i]+"]");
+        }
+    }
     
     public int getIndice() {
         return indice;
     }
-
+    
     public void setIndice(int indice) {
         this.indice = indice;
     }
     
-    public int getInten() {
-        return inten;
+    public int getIntentos() {
+        return intentos;
     }
 
     public void setInten(int inten) {
-        this.inten = inten;
+        this.intentos = inten;
     }
 
     public double getPuntos() {

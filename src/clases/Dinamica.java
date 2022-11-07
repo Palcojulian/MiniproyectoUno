@@ -13,8 +13,7 @@ public class Dinamica{
         this.numsOrdenados = new int[5];
     }
    
-    public void frecuenciaMayor(int arreglo[]){
-        
+    private void frecuenciaMayor(int arreglo[]){
         for (int i = 0; i < arreglo.length; i++) {
             int indice = 0;
             for (int j = 0; j < arreglo.length; j++) {
@@ -34,7 +33,7 @@ public class Dinamica{
         mostrarBolsaNivelTres();
     }
     
-    public void mostrarBolsaNivelTres(){
+    private void mostrarBolsaNivelTres(){
         for (int i = 0; i < this.numsOrdenados.length; i++) {
             System.out.println("["+this.numsOrdenados[i]+"]");
         }

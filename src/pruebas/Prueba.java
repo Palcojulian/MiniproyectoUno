@@ -13,17 +13,17 @@ import clases.Jugador;
 public class Prueba {
 
     public static void main(String[] args) {
-        
+
         Jugador per = new Jugador();
         Jugador maq = new Jugador();
-        
-        
-        while(Fun.turno(per.getInten(), per.bolsa.getBolsa()) || Fun.turno(maq.getInten(), maq.bolsa.getBolsa()) ){
-            //
-        }
-        
-        
-        
+
+        boolean humanturn = true;
+        int numsRech[] = new int[40];
+        int indiceNumsRechados = 0;
+
+        var resultado = 5%10;
+        System.out.println(resultado);
+
     }
 
     public static boolean mejorNum(int numInicial, int rango, int numGenerado) {
@@ -34,14 +34,14 @@ public class Prueba {
         boolean condicionDos = false;
 
         for (int i = 1; i <= adelante; i++) {
-            if(numGenerado == numInicial+i){
+            if (numGenerado == numInicial + i) {
                 condicionUno = true;
                 i = adelante + 1;
             }
         }
 
         for (int i = 1; i <= atras; i++) {
-            if(numGenerado == numInicial-i){
+            if (numGenerado == numInicial - i) {
                 condicionUno = true;
                 i = atras + 1;
             }
