@@ -1,5 +1,7 @@
 package clases;
 
+//@author Paya, Palco, Villa, Rodriguez, Ramos
+
 public class Jugador {
 
     private double puntos;

@@ -2,7 +2,7 @@ package pruebas;
 import clases.Jugador;
 /**
  *
- * @author palco
+ * @author Paya, Palco, Villa, Rodriguez, Ramos
  */
 public class Run {
 

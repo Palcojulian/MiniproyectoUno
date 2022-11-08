@@ -8,63 +8,80 @@ import java.util.Arrays;
 
 /**
  *
- * @author palco
+ * @https://the-algorithms.com/es
  */
 public class RadixSort {
 
-    private static int getMax(int[] arr, int n) {
-        int mx = arr[0];
-        for (int i = 1; i < n; i++) {
-            if (arr[i] > mx) {
-                mx = arr[i];
-            }
-        }
-        return mx;
+    private int[] salida;
+    private int[] contador;
+    private int[] arreglo;
+
+    public RadixSort() {
+        this.salida = new int[5];
+        this.contador = new int[10];
+        this.arreglo = new int[5];
     }
 
-    private static void countSort(int[] arr, int n, int exp) {
-        int[] output = new int[n];
-        int i;
-        
-        int[] count = new int[10];
-        Arrays.fill(count, 0);
+    public int obtMax(int[] arreglo) {
+        int mayor = arreglo[0];
+        for (int i = 1; i < arreglo.length; i++) {
+            if (arreglo[i] > mayor) {
+                mayor = arreglo[i];
+            }
+        }
+        return mayor;
+    }
 
-        for (i = 0; i < n; i++) {
-            count[(arr[i] / exp) % 10]++;
+    public void contador(int[] arreglo, int tam, int indice) {
+        int i;
+        Arrays.fill(this.contador, 0);
+
+        for (i = 0; i < tam; i++) {
+
+            this.contador[(arreglo[i] / indice) % 10]++;
+
         }
 
         for (i = 1; i < 10; i++) {
-            count[i] += count[i - 1];
+            this.contador[i] += this.contador[i - 1];
+
         }
 
-        for (i = n - 1; i >= 0; i--) {
-            output[count[(arr[i] / exp) % 10] - 1] = arr[i];
-            count[(arr[i] / exp) % 10]--;
+        for (i = tam - 1; i >= 0; i--) {
+            this.salida[this.contador[(arreglo[i] / indice) % 10] - 1] = arreglo[i];
+
+            this.contador[(arreglo[i] / indice) % 10]--;
+
         }
 
-        for (i = 0; i < n; i++) {
-            arr[i] = output[i];
+        for (i = 0; i < tam; i++) {
+            this.arreglo[i] = this.salida[i];
+
+//            
+        }
+
+    }
+
+    public void ordenarNums(int[] arreglo, int tam) {
+        int maximo = obtMax(arreglo);
+
+        for (int indice = 1; maximo / indice > 0; indice *= 10) {
+
+            contador(arreglo, tam, indice);
+
+        }
+        mostrarArreglo();
+    }
+
+    public void mostrarArreglo() {
+        for (int i = 0; i < this.arreglo.length; i++) {
+            System.out.println(this.arreglo[i] + " ");
         }
     }
 
-    private static void radixsort(int[] arr, int n) {
-        int m = getMax(arr, n);
-
-        for (int exp = 1; m / exp > 0; exp *= 10) {
-            countSort(arr, n, exp);
-        }
-    }
-
-    static void print(int[] arr, int n) {
-        for (int i = 0; i < n; i++) {
-            System.out.print(arr[i] + " ");
-        }
-    }
-    
     public static void main(String[] args) {
-        int[] arr = { 170, 45, 75, 90, 802, 24, 2, 66 };
-        int n = arr.length;
-        radixsort(arr, n);
-        print(arr, n);
+        RadixSort ob = new RadixSort();
+        int nums[] = {2,31,23,41,21};
+        ob.ordenarNums(nums, 5);
     }
 }

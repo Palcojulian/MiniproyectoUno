@@ -2,7 +2,7 @@ package clases;
 
 /**
  *
- * @author palco
+ *@author Paya, Palco, Villa, Rodriguez, Ramos
  */
 public class Dinamica{
     private int indices[];

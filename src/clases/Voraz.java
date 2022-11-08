@@ -2,7 +2,7 @@ package clases;
 
 /**
  *
- * @author palco
+ * @author Paya, Palco, Villa, Rodriguez, Ramos
  */
 public class Voraz {
 
@@ -61,13 +61,5 @@ public class Voraz {
 
     public void setNodoPartida(int nodoPartida) {
         this.nodoPartida = nodoPartida;
-    }
-
-    public static void main(String[] args) {
-        int vector[] = {13, 30, 12, 45, 3};
-
-        Voraz nivelCuatro = new Voraz();
-        
-        nivelCuatro.buscarDistaciaEntreNodos(vector);
     }
 }

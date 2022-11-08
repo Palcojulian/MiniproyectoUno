@@ -1,7 +1,7 @@
 package clases;
 
 /**
- * @author palco
+ * @author Paya, Palco, Villa, Rodriguez, Ramos
  */
 public class Bolsa{ 
   

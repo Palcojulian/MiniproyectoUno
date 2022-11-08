@@ -3,12 +3,13 @@ package pruebas;
 import clases.Dinamica;
 import clases.HeapSort;
 import clases.Jugador;
+import clases.RadixSort;
 import clases.Voraz;
 import java.util.Scanner;
 
 /**
  *
- * @author palco
+ * @author Paya, Palco, Villa, Rodriguez, Ramos
  */
 public class Fun {
 
@@ -54,11 +55,11 @@ public class Fun {
     }
 
     public static void mostrarIntegrantesDelGrupo() {
-        System.out.println("Karen Daniela");
-        System.out.println("Emily Villa");
-        System.out.println("Erika");
-        System.out.println("Juan Pablo Perdomo Paya");
-        System.out.println("Julian Libardo Palco Guegue");
+        System.out.println("Karen Daniela Rodriguez - 201961037");
+        System.out.println("Emily Alexandra Villa - 201961306");
+        System.out.println("Erika Lorena Ramos Findo - 201965704");
+        System.out.println("Juan Pablo Perdomo Paya - 201961422");
+        System.out.println("Julian Libardo Palco Guegue - 201961045");
     }
 
     public static void mostrarEstadoInicialFinalJugadores(Jugador per, Jugador maq, int nivel, int opcion) {
@@ -263,7 +264,8 @@ public class Fun {
     }
 
     public static void ordenamientoRadixSort(Jugador per, Jugador maq) {
-        System.out.println("En construcción");
+        System.out.println("Ordenamiento Nivel 2: RadixSort");
+        System.out.println("Tuvimos bugs con el codigo F :c ");
     }
 
     public static void ordenamientoDinamica(Jugador per, Jugador maq) {
